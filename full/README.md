@@ -138,10 +138,13 @@ only ~25% of its barcodes shared with the parent, and in estradiol it reaches **
 1. The interactive tree shows the **top-40 families per target plus every family with a valid
    hit**; within a family it shows WT + all valid mutants + a sample of artifacts, with a hidden
    count. The **full data is in the CSVs** — nothing is discarded, only hidden from the picture.
-2. "Valid" here means **independent of the parent**, not necessarily **enriched**. A few
-   likely_valid mutants have their own barcodes but actually *dropped* through Sort 2 (e.g. an
-   `E109D` that fell from 68k to 66 reads). The drawer shows per-round enrichment so you can tell
-   independent-and-real from independent-but-dying.
+2. **Pool depths are uneven — always compare frequency, not raw reads.** The pools were sequenced
+   to very different depths (expression ≈ 2.14M reads; each Sort 1 ≈ 1.0–1.6M; each Sort 2 ≈
+   0.67–1.6M), and **Sort 1 is shallower than expression for every ligand**. So a genotype can show
+   *fewer raw reads* in a pool while being *more frequent* there. All classification math already
+   normalizes (enrichment = frequency ratio, `reads / pool_total`); the interactive tree's flow
+   diagram now sizes its dots by **frequency (ppm)**, and the drawer shows a `Freq ppm` column and
+   the pool depths next to raw reads, so the visual trajectory reflects selection, not sampling.
 3. Same shared-panel caveat as before: barcode counts are an independent-observation signal, not
    per-molecule tags.
 4. **Read floors are pre-applied.** The upstream counter (`count_ngs_mutations.py`) already
