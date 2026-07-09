@@ -68,15 +68,16 @@ what we ordered"). Classified by whether each one behaves independently of its W
 
 | Class | count | share | meaning |
 |---|---:|---:|---|
-| **Valid extra hit** | **85** | 0.2% | holds ≥1 true-panel barcode the WT lacks (≥50 indep. reads), or cleared binder cutoffs |
-| Ambiguous | 5,570 | 16% | some panel independence, below the read floor |
+| **Valid extra hit** | **11** | 0.03% | ≥2 true-panel barcodes incl. ≥1 the WT lacks, >100 Sort-2 reads & >100 indep. reads — or cleared binder cutoffs |
+| Ambiguous | 5,644 | 16% | some panel independence, below the read/barcode floors |
 | **Parent artifact** | **28,957** | **84%** | occupies only panel barcodes the WT also has — no independent panel position |
 
 So the direct answer to *"how much of these extra sequences are valid hits rather than byproduct
-artifacts of the lineage parent"* is: **~84% are artifacts, ~16% are ambiguous, and only 85 mutant
-genotypes (0.2%) are confident valid hits** (2 of which are the already-known affinity-matured
-binders `DM2 · S13Y` and `DM2 · L52F`). Judging independence on the 27-panel footprint rather than
-raw barcodes is what makes this honest — see the A39S example below.
+artifacts of the lineage parent"* is: **~84% are artifacts, ~16% are ambiguous, and only 11 mutant
+genotypes (0.03%) are confident valid hits** — 2 of which are the already-known affinity-matured
+binders `DM2 · S13Y` and `DM2 · L52F`, the rest dominated by the recurrent `V45I` variant (seen
+independently across all six targets, reaching 1.19M Sort-2 reads in estradiol). Judging independence
+on the 27-panel footprint rather than raw barcodes is what makes this honest — see the A39S example below.
 
 ## How a mutant is judged valid vs. artifact
 
@@ -92,8 +93,9 @@ almost certainly sequencing error of the parent — not a real variant. The heur
 Classification — **independence is judged on the true-panel footprint, not raw barcodes** (raw
 strings fragment the off-panel error cluster and can make a mutant look falsely independent):
 - **binder** — clears the enrichment cutoffs (r1 ≥ 5×, r2 ≥ 2×) → strongest evidence, valid.
-- **likely_valid** — holds **≥1 true-panel barcode its WT parent does not occupy** AND accumulates
-  **≥50 reads on those independent positions** through the sorts → grew independently of the trunk.
+- **likely_valid** — holds **≥1 true-panel barcode its WT parent does not occupy**, sits on **≥2 of
+  the 27 true-panel barcodes**, and has **>100 Sort-2 reads** with **>100 reads on the independent
+  panel positions** → grew independently of the trunk with real read support.
 - **likely_artifact** — **every** panel barcode it maps to is also the WT's (`panel_only = 0`); it
   holds no panel position of its own → bleed-through of the abundant parent.
 - **ambiguous** — has some panel independence but below the 50-read floor.
