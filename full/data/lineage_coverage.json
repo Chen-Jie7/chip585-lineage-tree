@@ -10,8 +10,8 @@
   "total_mutant_genotypes": 34612,
   "mutant_class_counts": {
     "ambiguous": 5650,
-    "likely_artifact": 28957,
-    "binder": 2,
-    "likely_valid": 3
+    "likely_artifact": 28958,
+    "likely_valid": 3,
+    "binder": 1
   }
 }

@@ -68,16 +68,20 @@ what we ordered"). Classified by whether each one behaves independently of its W
 
 | Class | count | share | meaning |
 |---|---:|---:|---|
-| **Valid extra hit** | **5** | 0.01% | independent of the WT parent AND itself enriched through selection — or cleared binder cutoffs |
-| Ambiguous | 5,650 | 16% | some panel independence but failed the selection or read/barcode floors |
-| **Parent artifact** | **28,957** | **84%** | occupies only panel barcodes the WT also has — no independent panel position |
+| **Valid extra hit** | **4** | 0.01% | independent of the WT parent, enriched through selection, AND not just a low-% read shadow of the parent |
+| Ambiguous | 5,650 | 16% | some panel independence but failed the selection, read, or parent-% floors |
+| **Parent artifact** | **28,958** | **84%** | occupies only the WT's panel barcodes, or is <5% of the parent's reads on shared barcodes |
 
 So the direct answer to *"how much of these extra sequences are valid hits rather than byproduct
-artifacts of the lineage parent"* is: **~84% are artifacts, ~16% are ambiguous, and only 5 mutant
-genotypes are confident valid hits**: the 2 known affinity-matured binders `DM2 · S13Y` and
-`DM2 · L52F`, plus `EST · V45I` (1.19M Sort-2 reads), `EF2 · A139V`, and `EST · S15F`. The many
-`V45I` copies on *other* targets that merely rode their abundant parent — shrinking every round —
-are now correctly excluded: they were independent-looking on barcodes but failed the selection test.
+artifacts of the lineage parent"* is: **~84% are artifacts, ~16% are ambiguous, and only 4 mutant
+genotypes are confident valid hits**: `DM2 · L52F` (a real affinity-matured binder), `EST · V45I`
+(1.19M Sort-2 reads), `EF2 · A139V`, and `EST · S15F`.
+
+`DM2 · S13Y` — previously called a binder — is now correctly demoted: although it enriched, on the
+barcodes it shares with its (binder) WT parent it is only **1.57%** of the parent's reads, a level
+consistent with a fixed sequencing-error rate. Its apparent enrichment is most likely the *parent's*
+enrichment bleeding onto shared barcodes. `L52F` survives the same test at **27%** of its parent —
+too abundant to be error bleed, so a genuine variant.
 
 ## How a mutant is judged valid vs. artifact
 
@@ -92,7 +96,10 @@ almost certainly sequencing error of the parent — not a real variant. The heur
 
 Classification — **independence is judged on the true-panel footprint, not raw barcodes** (raw
 strings fragment the off-panel error cluster and can make a mutant look falsely independent):
-- **binder** — clears the enrichment cutoffs (r1 ≥ 5×, r2 ≥ 2×) → strongest evidence, valid.
+- **binder** — clears the enrichment cutoffs (r1 ≥ 5×, r2 ≥ 2×) **and** is >5% of its WT parent's
+  reads on the barcodes they share → strongest evidence, valid. (The parent-% test guards against a
+  mutant that enriched only because the *parent* enriched and bled onto shared barcodes — a mutant
+  at ~1% of an abundant binder parent is error-rate-consistent and is demoted to artifact.)
 - **likely_valid** — must clear **all** of: (a) **itself enriched through selection** — net
   enrichment from expression to Sort 2 with a strong final-round gain (the *same* selection standard
   the WT/binders pass, not a rigid round-1 ≥5× — binders often dip in round 1 then explode); (b)
