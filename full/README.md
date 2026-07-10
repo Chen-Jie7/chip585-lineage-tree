@@ -68,14 +68,15 @@ what we ordered"). Classified by whether each one behaves independently of its W
 
 | Class | count | share | meaning |
 |---|---:|---:|---|
-| **Valid extra hit** | **4** | 0.01% | independent of the WT parent, enriched through selection, AND not just a low-% read shadow of the parent |
+| **Valid extra hit** | **6** | 0.02% | independent of the WT parent, enriched through selection, AND not just a low-% read shadow of the parent |
 | Ambiguous | 5,650 | 16% | some panel independence but failed the selection, read, or parent-% floors |
-| **Parent artifact** | **28,958** | **84%** | occupies only the WT's panel barcodes, or is <5% of the parent's reads on shared barcodes |
+| **Parent artifact** | **28,956** | **84%** | occupies only the WT's panel barcodes, or is <5% of the parent's reads on shared barcodes |
 
 So the direct answer to *"how much of these extra sequences are valid hits rather than byproduct
-artifacts of the lineage parent"* is: **~84% are artifacts, ~16% are ambiguous, and only 4 mutant
-genotypes are confident valid hits**: `DM2 · L52F` (a real affinity-matured binder), `EST · V45I`
-(1.19M Sort-2 reads), `EF2 · A139V`, and `EST · S15F`.
+artifacts of the lineage parent"* is: **~84% are artifacts, ~16% are ambiguous, and only 6 mutant
+genotypes are confident valid hits**: three binders — `DM2 · L52F`, `T44 · S36Y`, `T44 · P23T` (all
+>16% of their parent on shared barcodes, so not error shadows) — plus three valid mutants
+`EST · V45I` (1.19M Sort-2 reads), `EF2 · A139V`, and `EST · S15F`.
 
 `DM2 · S13Y` — previously called a binder — is now correctly demoted: although it enriched, on the
 barcodes it shares with its (binder) WT parent it is only **1.57%** of the parent's reads, a level
@@ -139,12 +140,14 @@ only ~25% of its barcodes shared with the parent, and in estradiol it reaches **
    hit**; within a family it shows WT + all valid mutants + a sample of artifacts, with a hidden
    count. The **full data is in the CSVs** — nothing is discarded, only hidden from the picture.
 2. **Pool depths are uneven — always compare frequency, not raw reads.** The pools were sequenced
-   to very different depths (expression ≈ 2.14M reads; each Sort 1 ≈ 1.0–1.6M; each Sort 2 ≈
-   0.67–1.6M), and **Sort 1 is shallower than expression for every ligand**. So a genotype can show
-   *fewer raw reads* in a pool while being *more frequent* there. All classification math already
-   normalizes (enrichment = frequency ratio, `reads / pool_total`); the interactive tree's flow
-   diagram now sizes its dots by **frequency (ppm)**, and the drawer shows a `Freq ppm` column and
-   the pool depths next to raw reads, so the visual trajectory reflects selection, not sampling.
+   to very different depths, and **the denominator for frequency / ppm / enrichment is the pool's
+   total RAW sequencer reads** (from `summary.csv`'s `total_reads`), not just the reads that matched
+   a design. Raw depths: expression ≈ 5.27M; each Sort 1 ≈ 1.8–2.9M; each Sort 2 ≈ 1.2–2.3M. The
+   expression pool has a much lower match rate (~41% vs ~52–69% in the sort pools — selection cleans
+   the population), so using the raw denominator makes each design a smaller slice of the starting
+   pool and its expr→Sort 1 climb correspondingly steeper. All enrichment ratios (`enrich_s1`,
+   `enrich_s2`, net) are `f = reads / raw_pool_total`; the flow diagram sizes dots by **frequency
+   (ppm)** and the drawer shows a `Freq ppm` column plus the raw pool depths next to raw reads.
 3. Same shared-panel caveat as before: barcode counts are an independent-observation signal, not
    per-molecule tags.
 4. **Read floors are pre-applied.** The upstream counter (`count_ngs_mutations.py`) already
