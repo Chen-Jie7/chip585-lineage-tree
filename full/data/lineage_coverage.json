@@ -4,14 +4,14 @@
   "n_not_expressed": 3200,
   "n_expressed_not_ordered": 0,
   "panel_barcodes": 27,
-  "expr_total_reads": 5271953,
+  "expr_total_reads": 2144612,
   "families_only_wt": 6663,
   "families_with_mutants": 2141,
   "total_mutant_genotypes": 34612,
   "mutant_class_counts": {
     "ambiguous": 5650,
-    "likely_artifact": 28956,
+    "likely_artifact": 28958,
     "likely_valid": 3,
-    "binder": 3
+    "binder": 1
   }
 }
